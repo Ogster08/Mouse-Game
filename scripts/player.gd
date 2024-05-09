@@ -1,15 +1,23 @@
 extends CharacterBody2D
 
-const MAX_SPEED = 240
-const ACCELERATION = 100
-const JUMP_VELOCITY = -240
-const JUMP_BUFFER_TIME = 15
-# set gravity to 50 * size
+signal HEALTH_CHANGED
+
+@export var MAX_SPEED = 240
+@export var ACCELERATION = 80
+@export var JUMP_VELOCITY = -240
+@export var JUMP_BUFFER_TIME = 15
+
+@export var MAX_HEALTH = 100
+@onready var current_health : float = MAX_HEALTH
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-var jump_buffer_counter = 0
+@onready var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+@onready var jump_buffer_counter = 0
 
+func change_health(value: float):
+	#print(value)
+	current_health = clamp(current_health + value, 0, MAX_HEALTH)
+	HEALTH_CHANGED.emit()
 
 func _physics_process(delta):
 	# Add the gravity.
@@ -27,8 +35,8 @@ func _physics_process(delta):
 		velocity.y = JUMP_VELOCITY
 		
 	if Input.is_action_just_released("jump"):
-		if velocity.y < -120:
-			velocity.y += 200
+		if velocity.y < 0:
+			velocity.y *= 0.5
 
 	# Get the input direction and handle the movement/deceleration.
 	var direction = Input.get_axis("left", "right")
@@ -38,4 +46,10 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, ACCELERATION)
 
 	move_and_slide()
-	print(velocity.y)
+	change_health(-5 * delta)
+	#print(current_health)
+
+func _process(delta):
+	pass
+	#change_health(-5 * delta)
+	#print(current_health, delta)

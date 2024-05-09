@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://c5fosaxcisf38"]
+
+[ext_resource type="Texture2D" uid="uid://n03060yw52d4" path="res://assets/free assets/healthbar/healthbarUnder.png" id="1_rp4bj"]
+[ext_resource type="Texture2D" uid="uid://dsayb6l78478v" path="res://assets/free assets/healthbar/healthbarProgress.png" id="2_vfv7s"]
+[ext_resource type="Script" path="res://scenes/health bar.gd" id="3_j7f28"]
+
+[node name="UI" type="CanvasLayer"]
+
+[node name="health bar" type="TextureProgressBar" parent="." node_paths=PackedStringArray("UI")]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 74.0
+offset_bottom = 50.0
+scale = Vector2(10, 10)
+step = 0.0
+texture_under = ExtResource("1_rp4bj")
+texture_progress = ExtResource("2_vfv7s")
+script = ExtResource("3_j7f28")
+UI = NodePath("..")
