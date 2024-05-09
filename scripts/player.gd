@@ -7,12 +7,23 @@ signal HEALTH_CHANGED
 @export var JUMP_VELOCITY = -240
 @export var JUMP_BUFFER_TIME = 15
 
-@export var MAX_HEALTH = 100
+@export var MAX_HEALTH = 600
 @onready var current_health : float = MAX_HEALTH
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 @onready var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var jump_buffer_counter = 0
+
+@onready var point_light_2d = $PointLight2D
+
+func death():
+	get_tree().reload_current_scene()
+	Engine.time_scale = 1
+
+func sigmoid(x):
+	var a = 8
+	var b = -0.5
+	return 2 / (1 + exp(-a * x + b)) - 1
 
 func change_health(value: float):
 	#print(value)
@@ -46,10 +57,13 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, ACCELERATION)
 
 	move_and_slide()
-	change_health(-5 * delta)
-	#print(current_health)
+	
+	
+	change_health(-60 * delta)
 
 func _process(delta):
-	pass
-	#change_health(-5 * delta)
-	#print(current_health, delta)
+	point_light_2d.texture_scale = sigmoid(current_health / MAX_HEALTH)
+	point_light_2d.energy = sigmoid(current_health / MAX_HEALTH)
+	
+	if current_health <= 0:
+		death()

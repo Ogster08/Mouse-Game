@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_564um"]
 [ext_resource type="Texture2D" uid="uid://ck8eiidw6tby1" path="res://assets/sprites/player.png" id="2_bxrkj"]
-[ext_resource type="Texture2D" uid="uid://6kc71atshuqa" path="res://assets/sprites/2d_lights_and_shadows_neutral_point_light.webp" id="3_e0i2y"]
+[ext_resource type="Texture2D" uid="uid://cxxi55py7q38m" path="res://assets/sprites/light_gradient.png" id="3_ea53l"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ichhg"]
 radius = 8.0
@@ -12,6 +12,7 @@ height = 24.0
 script = ExtResource("1_564um")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.172579, 0.472574, 0.21689, 1)
 scale = Vector2(4, 4)
 texture = ExtResource("2_bxrkj")
 
@@ -19,6 +20,7 @@ texture = ExtResource("2_bxrkj")
 shape = SubResource("CapsuleShape2D_ichhg")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-color = Color(0.960784, 0.176471, 0.0313726, 1)
-texture = ExtResource("3_e0i2y")
-texture_scale = 0.2
+position = Vector2(1, -1)
+color = Color(0.999652, 0.658923, 0.575075, 1)
+range_layer_min = -100
+texture = ExtResource("3_ea53l")
